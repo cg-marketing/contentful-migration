@@ -151,7 +151,7 @@ export default class Fetcher implements APIFetcher {
     try {
       const response = await this.makeRequest({
         method: 'GET',
-        url: '/entries?content_type=migrationHistory'
+        url: '/entries?content_type=migrationHistory&limit=1000'
       })
       return response.items.map(item => new MigrationHistory(item.sys.id, item.fields))
     }catch(e) {
