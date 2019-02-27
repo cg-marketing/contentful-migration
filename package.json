@@ -1,6 +1,6 @@
 {
   "name": "@ypolosov/contentful-migration",
-  "version": "0.16.6",
+  "version": "0.16.7",
   "description": "Migration tooling for contentful",
   "author": "<ypolosov@gmail.com>",
   "license": "MIT",
