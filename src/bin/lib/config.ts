@@ -1,59 +1,68 @@
-import * as path from 'path'
-import * as os from 'os'
+import * as path from "path";
+import * as os from "os";
 
 // TODO: I'm ugly, maybe change me
-const homedir = process.env.NODE_ENV === 'test' ? '/tmp' : os.homedir()
-const configPath = path.resolve(homedir, '.contentfulrc.json')
+const homedir = process.env.NODE_ENV === "test" ? "/tmp" : os.homedir();
+const configPath = path.resolve(homedir, ".contentfulrc.json");
 
-interface ClientConfig {
-  accessToken?: string
-  spaceId?: string
-  environmentId?: string
+interface CasinoClientConfig {
+  brandName?: string;
+  templateName?: string;
+  companyName?: string;
 }
 
-function getFileConfig (): ClientConfig {
+interface ClientConfig extends CasinoClientConfig {
+  accessToken?: string;
+  spaceId?: string;
+  environmentId?: string;
+}
+
+function getFileConfig(): ClientConfig {
   try {
-    const config = require(configPath)
-    return config.cmaToken ?
-      { accessToken: config.cmaToken } :
-      {}
+    const config = require(configPath);
+    return config.cmaToken ? { accessToken: config.cmaToken } : {};
   } catch (e) {
-    return {}
+    return {};
   }
 }
 
-function getEnvConfig (): ClientConfig {
-  const envKey = 'CONTENTFUL_MANAGEMENT_ACCESS_TOKEN'
-  return process.env[envKey] ?
-    { accessToken : process.env[envKey] } :
-    {}
+function getEnvConfig(): ClientConfig {
+  const envKey = "CONTENTFUL_MANAGEMENT_ACCESS_TOKEN";
+  return process.env[envKey] ? { accessToken: process.env[envKey] } : {};
 }
 
-function getArgvConfig ({spaceId, environmentId = 'master', accessToken}): ClientConfig {
+function getArgvConfig({
+  spaceId,
+  environmentId = "master",
+  accessToken,
+  brandName,
+  templateName,
+  companyName,
+}): ClientConfig {
   const config = {
     spaceId,
     environmentId,
-    accessToken
-  }
+    accessToken,
+    brandName,
+    templateName,
+    companyName,
+  };
 
   if (!config.accessToken) {
-    delete config.accessToken
+    delete config.accessToken;
   }
 
-  return config
+  return config;
 }
 
-function getConfig (argv) {
-  const fileConfig = getFileConfig()
-  const envConfig = getEnvConfig()
-  const argvConfig = getArgvConfig(argv || {})
+function getConfig(argv) {
+  const fileConfig = getFileConfig();
+  const envConfig = getEnvConfig();
+  const argvConfig = getArgvConfig(argv || {});
 
-  return Object.assign(fileConfig, envConfig, argvConfig)
+  return Object.assign(fileConfig, envConfig, argvConfig);
 }
 
-export default getConfig
+export default getConfig;
 
-export {
-  getConfig,
-  ClientConfig
-}
+export { getConfig, ClientConfig, CasinoClientConfig };
