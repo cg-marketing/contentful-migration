@@ -44,7 +44,6 @@ class BatchError extends Error {
 type TerminatingFunction = (error: Error) => void;
 const makeTerminatingFunction = ({ shouldThrow }) => (error: Error) => {
   if (shouldThrow) {
-    process.exit(1);
     throw error;
   } else {
     process.exit(1);
@@ -402,9 +401,9 @@ async function execMigration(
   }
 }
 
-export const runMigration = createRun({ shouldThrow: true });
+export const runMigration = createRun({ shouldThrow: false });
 export default createRun({ shouldThrow: false });
-export const runBatchMigration = createRunBatch({ shouldThrow: true });
+export const runBatchMigration = createRunBatch({ shouldThrow: false });
 
 function loadMigrationFunction(filePath) {
   try {
