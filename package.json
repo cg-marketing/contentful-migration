@@ -1,5 +1,5 @@
 {
-  "name": "@galcg/contentful-migration",
+  "name": "@cg-marketing/contentful-migration",
   "version": "0.16.11",
   "description": "Migration tooling for contentful",
   "license": "MIT",
